@@ -778,6 +778,9 @@ class InstantChatMediaDownloader {
 
       this.autoScanDone = true;
 
+      // Send analytics event
+      this.sendAnalyticsEvent('magic_scan', total);
+
     } catch (error) {
       status.textContent = '❌ Error during scan';
       status.className = 'wmd-status wmd-status-error';
@@ -830,6 +833,9 @@ class InstantChatMediaDownloader {
       }
 
       this.autoScanDone = true;
+
+      // Send analytics event
+      this.sendAnalyticsEvent('full_scan', total);
 
     } catch (error) {
       status.textContent = '❌ Error during full scan';
@@ -1380,6 +1386,26 @@ class InstantChatMediaDownloader {
 
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /**
+   * Send analytics event to backend
+   * @param {string} eventName - Event name (magic_scan or full_scan)
+   * @param {number} totalItems - Number of items found
+   */
+  sendAnalyticsEvent(eventName, totalItems) {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage({
+          action: 'sendAnalytics',
+          event: eventName,
+          total_items: totalItems,
+          timestamp: Math.floor(Date.now() / 1000)
+        });
+      }
+    } catch (e) {
+      // Silently fail - analytics should not break the extension
+    }
   }
 }
 

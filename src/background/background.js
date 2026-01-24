@@ -1,8 +1,10 @@
 /**
  * Background Service Worker - Instant Chat Media Downloader
- * Handles file downloads
+ * Handles file downloads and analytics
  */
 
+// Analytics backend URL - change this when deploying
+const ANALYTICS_BACKEND_URL = 'https://your-backend-url.com';
 
 // Store pending download intercept information
 let pendingIntercept = null;
@@ -23,18 +25,56 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       conversationName: message.conversationName,
       timestamp: Date.now()
     };
-    
+
     // Clear intercept after timeout
     setTimeout(() => {
       if (pendingIntercept && Date.now() - pendingIntercept.timestamp > INTERCEPT_TIMEOUT) {
         pendingIntercept = null;
       }
     }, INTERCEPT_TIMEOUT);
-    
+
     sendResponse({ success: true });
     return true;
   }
+
+  if (message.action === 'sendAnalytics') {
+    sendAnalyticsEvent(message.event, message.total_items, message.timestamp)
+      .then(() => sendResponse({ success: true }))
+      .catch(() => sendResponse({ success: false }));
+    return true;
+  }
 });
+
+/**
+ * Send analytics event to backend
+ * @param {string} eventName - Event name (magic_scan or full_scan)
+ * @param {number} totalItems - Number of items found
+ * @param {number} timestamp - Unix timestamp in seconds
+ */
+async function sendAnalyticsEvent(eventName, totalItems, timestamp) {
+  try {
+    const response = await fetch(`${ANALYTICS_BACKEND_URL}/events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        event: eventName,
+        total_items: totalItems,
+        timestamp: timestamp
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    // Silently fail - analytics should not break the extension
+    return null;
+  }
+}
 
 /**
  * Descarga un archivo usando la API de Chrome
