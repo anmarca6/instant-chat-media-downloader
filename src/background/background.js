@@ -4,7 +4,7 @@
  */
 
 // Analytics backend URL - change this when deploying
-const ANALYTICS_BACKEND_URL = 'https://your-backend-url.com';
+const ANALYTICS_BACKEND_URL = 'http://localhost:3001';
 
 // Store pending download intercept information
 let pendingIntercept = null;

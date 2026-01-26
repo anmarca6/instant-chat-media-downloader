@@ -442,6 +442,108 @@
   border-color: #0e7169;
 }
 
+/* Analytics Consent Modal */
+.wmd-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2147483647 !important;
+}
+
+.wmd-modal {
+  background: white !important;
+  border-radius: 16px !important;
+  width: 400px !important;
+  max-width: 90% !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+  overflow: hidden !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+.wmd-modal-header {
+  background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
+  color: white !important;
+  padding: 20px !important;
+  text-align: center !important;
+}
+
+.wmd-modal-header h3 {
+  margin: 0 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+.wmd-modal-body {
+  padding: 20px !important;
+  color: #333 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.wmd-modal-body p {
+  margin: 0 0 12px 0 !important;
+}
+
+.wmd-modal-info {
+  background: #f5f5f5 !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  margin: 12px 0 !important;
+}
+
+.wmd-modal-info p {
+  margin: 0 0 6px 0 !important;
+  font-weight: 600 !important;
+  color: #555 !important;
+}
+
+.wmd-modal-info ul {
+  margin: 0 0 12px 0 !important;
+  padding-left: 20px !important;
+  color: #666 !important;
+}
+
+.wmd-modal-info li {
+  margin: 4px 0 !important;
+  font-size: 13px !important;
+}
+
+.wmd-modal-note {
+  font-size: 12px !important;
+  color: #888 !important;
+  font-style: italic !important;
+  text-align: center !important;
+  margin-top: 12px !important;
+}
+
+.wmd-modal-actions {
+  display: flex !important;
+  gap: 12px !important;
+  padding: 16px 20px 20px !important;
+  background: #fafafa !important;
+  border-top: 1px solid #eee !important;
+}
+
+.wmd-modal-actions .wmd-btn {
+  flex: 1 !important;
+  margin-bottom: 0 !important;
+}
+
+.wmd-btn-secondary {
+  background: #e0e0e0 !important;
+  color: #666 !important;
+}
+
+.wmd-btn-secondary:hover:not(:disabled) {
+  background: #d0d0d0 !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .wmd-panel {
@@ -451,6 +553,10 @@
 
   .wmd-panel-open {
     right: 20px;
+  }
+
+  .wmd-modal {
+    width: 95% !important;
   }
 }
 

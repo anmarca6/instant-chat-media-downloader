@@ -23,6 +23,7 @@ class InstantChatMediaDownloader {
     this.timeRangeHours = null;
     this.currentConversationId = null;
     this.conversationCheckInterval = null;
+    this.analyticsConsent = null; // null = not asked, true = accepted, false = declined
 
     this.selectors = {
       chatContainer: '[data-testid="conversation-panel-body"]',
@@ -326,6 +327,9 @@ class InstantChatMediaDownloader {
 
   async init() {
     try {
+      // Load analytics consent from storage
+      this.loadAnalyticsConsent();
+
       this.createUI();
       this.updateCounts();
 
@@ -336,6 +340,93 @@ class InstantChatMediaDownloader {
 
     } catch (error) {
     }
+  }
+
+  loadAnalyticsConsent() {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.get(['analyticsConsent'], (result) => {
+          if (result.analyticsConsent !== undefined) {
+            this.analyticsConsent = result.analyticsConsent;
+            this.updateAnalyticsToggleUI();
+          }
+        });
+      }
+    } catch (e) {
+      // Silently fail
+    }
+  }
+
+  saveAnalyticsConsent(consent) {
+    this.analyticsConsent = consent;
+    try {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ analyticsConsent: consent });
+      }
+    } catch (e) {
+      // Silently fail
+    }
+    this.updateAnalyticsToggleUI();
+  }
+
+  updateAnalyticsToggleUI() {
+    const toggle = document.getElementById('wmd-analytics-toggle');
+    if (toggle) {
+      toggle.checked = this.analyticsConsent === true;
+    }
+  }
+
+  showAnalyticsConsentModal() {
+    // Don't show if already answered
+    if (this.analyticsConsent !== null) {
+      return;
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'wmd-analytics-modal';
+    modal.className = 'wmd-modal-overlay';
+    modal.innerHTML = `
+      <div class="wmd-modal">
+        <div class="wmd-modal-header">
+          <h3>📊 Help Improve This Extension</h3>
+        </div>
+        <div class="wmd-modal-body">
+          <p>Would you like to share anonymous usage statistics to help us improve the extension?</p>
+          <div class="wmd-modal-info">
+            <p><strong>What we collect:</strong></p>
+            <ul>
+              <li>Number of scans performed (Magic Scan / Full Scan)</li>
+              <li>Number of files found per scan</li>
+              <li>Date of usage (aggregated daily)</li>
+            </ul>
+            <p><strong>What we DON'T collect:</strong></p>
+            <ul>
+              <li>No personal information</li>
+              <li>No chat content or messages</li>
+              <li>No file names or URLs</li>
+              <li>No contact information</li>
+            </ul>
+          </div>
+          <p class="wmd-modal-note">You can change this setting anytime in Advanced Options.</p>
+        </div>
+        <div class="wmd-modal-actions">
+          <button class="wmd-btn wmd-btn-secondary" id="wmd-analytics-decline">No, thanks</button>
+          <button class="wmd-btn wmd-btn-primary" id="wmd-analytics-accept">Yes, I'll help</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('wmd-analytics-accept').addEventListener('click', () => {
+      this.saveAnalyticsConsent(true);
+      modal.remove();
+    });
+
+    document.getElementById('wmd-analytics-decline').addEventListener('click', () => {
+      this.saveAnalyticsConsent(false);
+      modal.remove();
+    });
   }
 
   async waitForWhatsAppLoad() {
@@ -491,6 +582,17 @@ class InstantChatMediaDownloader {
               ⬇️ Download All
             </button>
           </div>
+
+          <div class="wmd-section">
+            <h4>📊 Analytics:</h4>
+            <label class="wmd-checkbox" style="display: flex; align-items: center;">
+              <input type="checkbox" id="wmd-analytics-toggle">
+              <span style="flex: 1;">Share anonymous usage statistics</span>
+            </label>
+            <p style="font-size: 11px; color: #8696a0; margin-top: 4px; margin-bottom: 0;">
+              Helps us improve the extension. No personal data collected.
+            </p>
+          </div>
         </div>
 
         <div class="wmd-progress" id="wmd-progress" style="display: none;">
@@ -569,9 +671,22 @@ class InstantChatMediaDownloader {
 
           this.collapseAdvancedOptions();
           this.startConversationMonitoring();
+
+          // Show analytics consent modal if not yet answered
+          if (this.analyticsConsent === null) {
+            setTimeout(() => this.showAnalyticsConsentModal(), 500);
+          }
         } else {
           this.stopConversationMonitoring();
         }
+      });
+    }
+
+    // Analytics toggle listener
+    const analyticsToggle = document.getElementById('wmd-analytics-toggle');
+    if (analyticsToggle) {
+      analyticsToggle.addEventListener('change', () => {
+        this.saveAnalyticsConsent(analyticsToggle.checked);
       });
     }
 
@@ -1389,11 +1504,16 @@ class InstantChatMediaDownloader {
   }
 
   /**
-   * Send analytics event to backend
+   * Send analytics event to backend (only if user consented)
    * @param {string} eventName - Event name (magic_scan or full_scan)
    * @param {number} totalItems - Number of items found
    */
   sendAnalyticsEvent(eventName, totalItems) {
+    // Only send if user explicitly consented
+    if (this.analyticsConsent !== true) {
+      return;
+    }
+
     try {
       if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
         chrome.runtime.sendMessage({
