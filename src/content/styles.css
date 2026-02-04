@@ -1,0 +1,562 @@
+/**
+ * Estilos para WhatsApp Web Media Downloader
+ */
+
+.wmd-panel {
+  position: fixed !important;
+  top: 90px !important;
+  right: -400px !important;
+  width: 380px !important;
+  max-height: calc(100vh - 110px) !important;
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  z-index: 2147483646 !important; /* One less than toggle */
+  transition: right 0.3s ease !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  overflow: hidden !important;
+  pointer-events: auto !important;
+}
+
+.wmd-panel-open {
+  right: 20px !important;
+}
+
+.wmd-header {
+  background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Buy me a coffee link - discrete but visible */
+.wmd-coffee-link {
+  display: block;
+  text-align: center;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #666;
+  text-decoration: none;
+  background: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.wmd-coffee-link:hover {
+  background: #fff4e6;
+  color: #ff9800;
+  text-decoration: none;
+}
+
+.wmd-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.wmd-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+  padding: 0;
+}
+
+.wmd-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.wmd-body {
+  padding: 20px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.wmd-section {
+  margin-bottom: 20px;
+}
+
+.wmd-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wmd-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.wmd-checkbox:hover {
+  background: #eeeeee;
+}
+
+.wmd-checkbox input[type="checkbox"] {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #128C7E;
+}
+
+.wmd-checkbox span {
+  font-size: 14px;
+  color: #333;
+  user-select: none;
+}
+
+.wmd-btn {
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wmd-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wmd-btn-primary {
+  background: #128C7E;
+  color: white;
+}
+
+.wmd-btn-primary:hover:not(:disabled) {
+  background: #0e7169;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(18, 140, 126, 0.3);
+}
+
+.wmd-btn-success {
+  background: #25D366;
+  color: white;
+}
+
+.wmd-btn-success:hover:not(:disabled) {
+  background: #1fb855;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.wmd-btn-large {
+  font-size: 16px;
+  padding: 14px 24px;
+  font-weight: 600;
+}
+
+.wmd-btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.wmd-btn-danger:hover:not(:disabled) {
+  background: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.wmd-progress {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.wmd-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.wmd-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #128C7E 0%, #25D366 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.wmd-progress-text {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+}
+
+.wmd-status {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.wmd-status-info {
+  background: #E3F2FD;
+  color: #1976D2;
+}
+
+.wmd-status-success {
+  background: #E8F5E9;
+  color: #388E3C;
+}
+
+.wmd-status-error {
+  background: #FFEBEE;
+  color: #D32F2F;
+}
+
+/* Summary section styles */
+.wmd-summary {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.wmd-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 15px;
+}
+
+.wmd-summary-icon {
+  font-size: 20px;
+}
+
+.wmd-summary-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.wmd-summary-count {
+  color: #128C7E;
+  font-weight: 700;
+  font-size: 18px;
+  margin-left: auto;
+}
+
+.wmd-summary-time {
+  text-align: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #ddd;
+  color: #888;
+  font-size: 13px;
+}
+
+/* Advanced options styles */
+.wmd-advanced-toggle {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.wmd-btn-link {
+  background: none;
+  border: none;
+  color: #128C7E;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+
+.wmd-btn-link:hover {
+  color: #0e7169;
+  text-decoration: underline;
+}
+
+.wmd-advanced {
+  border-top: 2px solid #e0e0e0;
+  padding-top: 16px;
+  margin-top: 12px;
+}
+
+/* Select dropdown styles */
+.wmd-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.wmd-select:hover {
+  border-color: #128C7E;
+}
+
+.wmd-select:focus {
+  outline: none;
+  border-color: #128C7E;
+  box-shadow: 0 0 0 3px rgba(18, 140, 126, 0.1);
+}
+
+.wmd-toggle {
+  position: fixed !important;
+  top: 90px !important;
+  right: 20px !important;
+  width: 56px !important;
+  height: 56px !important;
+  background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 24px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  z-index: 2147483647 !important; /* Maximum z-index possible */
+  transition: all 0.3s ease !important;
+  pointer-events: auto !important;
+}
+
+.wmd-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Ocultar toggle cuando el panel está abierto */
+.wmd-panel-open ~ .wmd-toggle {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0);
+}
+
+/* Scrollbar personalizado */
+.wmd-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.wmd-body::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+.wmd-body::-webkit-scrollbar-thumb {
+  background: #128C7E;
+  border-radius: 3px;
+}
+
+.wmd-body::-webkit-scrollbar-thumb:hover {
+  background: #0e7169;
+}
+
+/* Animaciones */
+@keyframes slideInRight {
+  from {
+    right: -400px;
+  }
+  to {
+    right: 20px;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Time filter buttons */
+.wmd-time-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.wmd-btn-filter {
+  flex: 1;
+  padding: 10px 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #f5f5f5;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.wmd-btn-filter:hover:not(:disabled) {
+  border-color: #128C7E;
+  background: #e8f5e9;
+  color: #128C7E;
+}
+
+.wmd-btn-filter.active {
+  background: #128C7E;
+  color: white;
+  border-color: #128C7E;
+  box-shadow: 0 2px 8px rgba(18, 140, 126, 0.3);
+}
+
+.wmd-btn-filter.active:hover {
+  background: #0e7169;
+  border-color: #0e7169;
+}
+
+/* Analytics Consent Modal */
+.wmd-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2147483647 !important;
+}
+
+.wmd-modal {
+  background: white !important;
+  border-radius: 16px !important;
+  width: 400px !important;
+  max-width: 90% !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+  overflow: hidden !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+.wmd-modal-header {
+  background: linear-gradient(135deg, #128C7E 0%, #075E54 100%) !important;
+  color: white !important;
+  padding: 20px !important;
+  text-align: center !important;
+}
+
+.wmd-modal-header h3 {
+  margin: 0 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+.wmd-modal-body {
+  padding: 20px !important;
+  color: #333 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.wmd-modal-body p {
+  margin: 0 0 12px 0 !important;
+}
+
+.wmd-modal-info {
+  background: #f5f5f5 !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  margin: 12px 0 !important;
+}
+
+.wmd-modal-info p {
+  margin: 0 0 6px 0 !important;
+  font-weight: 600 !important;
+  color: #555 !important;
+}
+
+.wmd-modal-info ul {
+  margin: 0 0 12px 0 !important;
+  padding-left: 20px !important;
+  color: #666 !important;
+}
+
+.wmd-modal-info li {
+  margin: 4px 0 !important;
+  font-size: 13px !important;
+}
+
+.wmd-modal-note {
+  font-size: 12px !important;
+  color: #888 !important;
+  font-style: italic !important;
+  text-align: center !important;
+  margin-top: 12px !important;
+}
+
+.wmd-modal-actions {
+  display: flex !important;
+  gap: 12px !important;
+  padding: 16px 20px 20px !important;
+  background: #fafafa !important;
+  border-top: 1px solid #eee !important;
+}
+
+.wmd-modal-actions .wmd-btn {
+  flex: 1 !important;
+  margin-bottom: 0 !important;
+}
+
+.wmd-btn-secondary {
+  background: #e0e0e0 !important;
+  color: #666 !important;
+}
+
+.wmd-btn-secondary:hover:not(:disabled) {
+  background: #d0d0d0 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wmd-panel {
+    width: calc(100% - 40px);
+    right: -100%;
+  }
+
+  .wmd-panel-open {
+    right: 20px;
+  }
+
+  .wmd-modal {
+    width: 95% !important;
+  }
+}
+

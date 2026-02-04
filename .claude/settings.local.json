@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.instantdb.com)",
+      "WebFetch(domain:unpkg.com)",
+      "WebFetch(domain:app.unpkg.com)",
+      "Bash(ls \"C:\\\\Users\\\\angel.martinez\\\\Downloads\\\\PERSONAL_PROJECTS\\\\instant-chat-extension-clean\\\\lib\"\" 2>nul || echo \"lib dir does not exist \")",
+      "Bash(powershell:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)"
+    ]
+  }
+}
