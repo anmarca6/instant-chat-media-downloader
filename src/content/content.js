@@ -10,7 +10,7 @@ class InstantChatMediaDownloader {
       documents: new Set()
     };
     this.isScanning = false;
-    this.stopScanning = false;
+
     this.documentButtons = new Map();
     this.isPaused = false;
     this.ui = null;
@@ -74,7 +74,7 @@ class InstantChatMediaDownloader {
         this.documentButtons = new Map();
 
         this.isScanning = false;
-        this.stopScanning = false;
+    
 
         this.updateCounts();
 
@@ -91,7 +91,7 @@ class InstantChatMediaDownloader {
           progress.style.display = 'none';
         }
 
-        this.collapseAdvancedOptions();
+
 
       } else if (!this.currentConversationId) {
         this.currentConversationId = currentId;
@@ -117,7 +117,7 @@ class InstantChatMediaDownloader {
           progress.style.display = 'none';
         }
 
-        this.collapseAdvancedOptions();
+
       }
 
     } catch (error) {
@@ -395,7 +395,7 @@ class InstantChatMediaDownloader {
           <div class="wmd-modal-info">
             <p><strong>What we collect:</strong></p>
             <ul>
-              <li>Number of scans performed (Magic Scan / Full Scan)</li>
+              <li>Number of scans performed</li>
               <li>Number of files found per scan</li>
               <li>Date of usage (aggregated daily)</li>
             </ul>
@@ -407,7 +407,7 @@ class InstantChatMediaDownloader {
               <li>No contact information</li>
             </ul>
           </div>
-          <p class="wmd-modal-note">You can change this setting anytime in Advanced Options.</p>
+          <p class="wmd-modal-note">You can change this setting anytime from the panel.</p>
         </div>
         <div class="wmd-modal-actions">
           <button class="wmd-btn wmd-btn-secondary" id="wmd-analytics-decline">No, thanks</button>
@@ -461,7 +461,10 @@ class InstantChatMediaDownloader {
     panel.className = 'wmd-panel';
     panel.innerHTML = `
       <div class="wmd-header">
-        <h3>📥 Instant Chat Media Downloader</h3>
+        <div style="display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0;">
+          <h3>📥 Instant Chat Media Downloader</h3>
+          <span style="font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px;">Version 1.9.3</span>
+        </div>
         <button class="wmd-close" id="wmd-close-btn">×</button>
       </div>
       <a href="https://buymeacoffee.com/anmarca" target="_blank" rel="noopener noreferrer" class="wmd-coffee-link">
@@ -516,83 +519,14 @@ class InstantChatMediaDownloader {
           </button>
         </div>
 
-        <div class="wmd-advanced-toggle" id="wmd-advanced-toggle">
-          <button class="wmd-btn-link">⚙️ Advanced Options (Pro)</button>
-        </div>
-
-        <div class="wmd-advanced" id="wmd-advanced" style="display: none;">
-          <div class="wmd-section">
-            <h4>Media Types:</h4>
-
-            <div style="margin-bottom: 12px;">
-              <label class="wmd-checkbox" style="font-weight: 600; margin-bottom: 8px; display: flex; align-items: center;">
-                <input type="checkbox" id="wmd-images-check" checked>
-                <span style="flex: 1;">🖼️ Images</span>
-              </label>
-              <div id="wmd-images-subtypes" style="margin-left: 24px; display: block;">
-                <label class="wmd-checkbox wmd-subtype-item" data-subtype="jpg">
-                  <input type="checkbox" id="wmd-images-jpg" checked>
-                  <span>JPG/JPEG</span>
-                </label>
-                <label class="wmd-checkbox wmd-subtype-item" data-subtype="png">
-                  <input type="checkbox" id="wmd-images-png" checked>
-                  <span>PNG</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label class="wmd-checkbox" style="font-weight: 600; margin-bottom: 8px; display: flex; align-items: center;">
-                <input type="checkbox" id="wmd-documents-check" checked>
-                <span style="flex: 1;">📄 Documents</span>
-              </label>
-              <div id="wmd-documents-subtypes" style="margin-left: 24px; display: block;">
-                <label class="wmd-checkbox wmd-subtype-item" data-subtype="pdf">
-                  <input type="checkbox" id="wmd-docs-pdf" checked>
-                  <span>PDF</span>
-                </label>
-                <label class="wmd-checkbox wmd-subtype-item" data-subtype="doc">
-                  <input type="checkbox" id="wmd-docs-doc" checked>
-                  <span>DOC/DOCX</span>
-                </label>
-                <label class="wmd-checkbox wmd-subtype-item" data-subtype="xls">
-                  <input type="checkbox" id="wmd-docs-xls" checked>
-                  <span>XLS/XLSX</span>
-                </label>
-                <label class="wmd-checkbox wmd-subtype-item" data-subtype="txt">
-                  <input type="checkbox" id="wmd-docs-txt" checked>
-                  <span>TXT</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="wmd-section">
-            <h4>Full Scan & Download:</h4>
-            <button class="wmd-btn wmd-btn-primary" id="wmd-rescan-btn">
-              🔍 Full Scan
-            </button>
-            <button class="wmd-btn wmd-btn-danger" id="wmd-stop-scan-btn" style="display: none; margin-top: 8px;">
-              ⏹️ STOP Scan
-            </button>
-            <p style="font-size: 12px; color: #8696a0; margin-top: 8px; margin-bottom: 0;">
-              ⚠️ Scrolls through conversation. Click STOP when you have enough files.
-            </p>
-            <button class="wmd-btn wmd-btn-success" id="wmd-download-advanced-btn" disabled style="margin-top: 8px;">
-              ⬇️ Download All
-            </button>
-          </div>
-
-          <div class="wmd-section">
-            <h4>📊 Analytics:</h4>
-            <label class="wmd-checkbox" style="display: flex; align-items: center;">
-              <input type="checkbox" id="wmd-analytics-toggle">
-              <span style="flex: 1;">Share anonymous usage statistics</span>
-            </label>
-            <p style="font-size: 11px; color: #8696a0; margin-top: 4px; margin-bottom: 0;">
-              Helps us improve the extension. No personal data collected.
-            </p>
-          </div>
+        <div class="wmd-section" style="padding-top: 0;">
+          <label class="wmd-checkbox" style="display: flex; align-items: center; font-size: 12px;">
+            <input type="checkbox" id="wmd-analytics-toggle">
+            <span style="flex: 1;">📊 Share anonymous usage statistics</span>
+          </label>
+          <p style="font-size: 11px; color: #8696a0; margin-top: 4px; margin-bottom: 0;">
+            Helps us improve the extension. No personal data collected.
+          </p>
         </div>
 
         <div class="wmd-progress" id="wmd-progress" style="display: none;">
@@ -650,7 +584,7 @@ class InstantChatMediaDownloader {
           this.documentButtons = new Map();
           this.downloadSessionFolder = null;
           this.isScanning = false;
-          this.stopScanning = false;
+      
           this.updateCounts();
 
           const status = document.getElementById('wmd-status');
@@ -669,7 +603,7 @@ class InstantChatMediaDownloader {
             progress.style.display = 'none';
           }
 
-          this.collapseAdvancedOptions();
+  
           this.startConversationMonitoring();
 
           // Show analytics consent modal if not yet answered
@@ -724,99 +658,9 @@ class InstantChatMediaDownloader {
       });
     }
 
-    const advancedToggle = document.getElementById('wmd-advanced-toggle');
-    if (advancedToggle) {
-      advancedToggle.addEventListener('click', () => {
-        const advancedPanel = document.getElementById('wmd-advanced');
-        const magicScanBtn = document.getElementById('wmd-magic-scan-btn');
-        const magicScanSection = magicScanBtn?.closest('.wmd-section');
-        const downloadBtn = document.getElementById('wmd-download-btn');
-        const downloadSection = downloadBtn?.closest('.wmd-section');
-
-        if (advancedPanel) {
-          const isHidden = advancedPanel.style.display === 'none';
-          advancedPanel.style.display = isHidden ? 'block' : 'none';
-
-          if (isHidden) {
-            if (magicScanSection) magicScanSection.style.display = 'none';
-            if (downloadSection) downloadSection.style.display = 'none';
-
-            this.mediaItems = {
-              images: new Set(),
-              documents: new Set()
-            };
-            this.documentButtons = new Map();
-            this.updateCounts();
-
-            const status = document.getElementById('wmd-status');
-            if (status) {
-              status.textContent = 'Click "Full Scan" to start';
-              status.className = 'wmd-status';
-            }
-
-            this.setDownloadButtonsDisabled(true);
-
-            const progress = document.getElementById('wmd-progress');
-            if (progress) {
-              progress.style.display = 'none';
-            }
-          } else {
-            if (magicScanSection) magicScanSection.style.display = 'block';
-            if (downloadSection) downloadSection.style.display = 'block';
-          }
-        }
-      });
-    }
-
-    const rescanBtn = document.getElementById('wmd-rescan-btn');
-    if (rescanBtn) {
-      rescanBtn.addEventListener('click', () => {
-        this.startFullScan();
-      });
-    }
-
-    const stopBtn = document.getElementById('wmd-stop-scan-btn');
-    if (stopBtn) {
-      stopBtn.addEventListener('click', () => {
-        this.stopScanning = true;
-        stopBtn.style.display = 'none';
-        document.getElementById('wmd-status').textContent = 'Scan stopped by user';
-        document.getElementById('wmd-status').className = 'wmd-status wmd-status-info';
-      });
-    }
-
-    const imagesCheck = document.getElementById('wmd-images-check');
-    if (imagesCheck) {
-      imagesCheck.addEventListener('change', () => {
-        const subChecks = ['wmd-images-jpg', 'wmd-images-png'];
-        subChecks.forEach(id => {
-          const checkbox = document.getElementById(id);
-          if (checkbox) checkbox.checked = imagesCheck.checked;
-        });
-      });
-    }
-
-    const docsCheck = document.getElementById('wmd-documents-check');
-    if (docsCheck) {
-      docsCheck.addEventListener('change', () => {
-        const subChecks = ['wmd-docs-pdf', 'wmd-docs-doc', 'wmd-docs-xls', 'wmd-docs-txt'];
-        subChecks.forEach(id => {
-          const checkbox = document.getElementById(id);
-          if (checkbox) checkbox.checked = docsCheck.checked;
-        });
-      });
-    }
-
     const downloadBtn = document.getElementById('wmd-download-btn');
     if (downloadBtn) {
       downloadBtn.addEventListener('click', () => {
-        this.startDownload();
-      });
-    }
-
-    const downloadAdvancedBtn = document.getElementById('wmd-download-advanced-btn');
-    if (downloadAdvancedBtn) {
-      downloadAdvancedBtn.addEventListener('click', () => {
         this.startDownload();
       });
     }
@@ -881,13 +725,12 @@ class InstantChatMediaDownloader {
       const imagesCount = this.mediaItems.images.size;
       const documentsCount = this.mediaItems.documents.size;
 
-      status.textContent = `✅ Found ${total} files (${imagesCount} images, ${documentsCount} documents)`;
-      status.className = 'wmd-status wmd-status-success';
-
       if (total > 0) {
+        status.textContent = `✅ Found ${total} files (${imagesCount} images, ${documentsCount} documents)`;
+        status.className = 'wmd-status wmd-status-success';
         this.setDownloadButtonsDisabled(false);
       } else {
-        status.textContent = `No media found. Try "Full Scan" in Advanced Options.`;
+        status.textContent = 'No media found. Try a wider time range.';
         status.className = 'wmd-status wmd-status-info';
       }
 
@@ -904,92 +747,73 @@ class InstantChatMediaDownloader {
     }
   }
 
-  async startFullScan() {
-    if (this.isScanning) {
-      return;
+  getMessageTimestamp(element) {
+    // Strategy 1: Use role="row" (WhatsApp virtual list message boundary)
+    const row = element.closest('[role="row"]');
+    if (row) {
+      const ts = this._extractTimestampFromContainer(row);
+      if (ts) return ts;
     }
 
-    this.isScanning = true;
-    this.stopScanning = false;
-    this.mediaItems = {
-      images: new Set(),
-      documents: new Set()
-    };
-    this.documentButtons = new Map();
-
-    this.conversationName = this.getConversationName();
-
-    const status = document.getElementById('wmd-status');
-    const stopBtn = document.getElementById('wmd-stop-scan-btn');
-    const fullScanBtn = document.getElementById('wmd-rescan-btn');
-
-    if (stopBtn) stopBtn.style.display = 'block';
-    if (fullScanBtn) fullScanBtn.style.display = 'none';
-
-    status.textContent = 'Full scan in progress (scrolling)... Click STOP anytime';
-    status.className = 'wmd-status wmd-status-info';
-
-    try {
-      await this.scanCurrentView();
-      await this.scrollAndScan();
-
-      this.updateCounts();
-
-      const total = this.getTotalMediaCount();
-
-      status.textContent = `✅ Full scan complete: ${total} files found`;
-      status.className = 'wmd-status wmd-status-success';
-
-      if (total > 0) {
-        this.setDownloadButtonsDisabled(false);
-      } else {
-        status.textContent = `No media found in conversation.`;
-        status.className = 'wmd-status wmd-status-info';
-      }
-
-      this.autoScanDone = true;
-
-      // Send analytics event
-      this.sendAnalyticsEvent('full_scan', total);
-
-    } catch (error) {
-      status.textContent = '❌ Error during full scan';
-      status.className = 'wmd-status wmd-status-error';
-    } finally {
-      this.isScanning = false;
-      this.stopScanning = false;
-      if (stopBtn) stopBtn.style.display = 'none';
-      if (fullScanBtn) fullScanBtn.style.display = 'block';
+    // Strategy 2: Use data-testid="msg-container" or similar
+    const msgContainer = element.closest('[data-testid="msg-container"]');
+    if (msgContainer) {
+      // Search msg-container AND its parent (msg-meta may be a sibling)
+      const ts = this._extractTimestampFromContainer(msgContainer)
+              || this._extractTimestampFromContainer(msgContainer.parentElement);
+      if (ts) return ts;
     }
+
+    // Strategy 3: Walk up manually, limited to 15 levels
+    let current = element.parentElement;
+    for (let i = 0; i < 15 && current && current !== document.body; i++) {
+      const ts = this._extractTimestampFromContainer(current);
+      if (ts) return ts;
+      current = current.parentElement;
+    }
+
+    return null;
   }
 
-  async scrollAndScan() {
-    const chatContainer = document.querySelector(this.selectors.chatContainer);
-    if (!chatContainer) return;
+  _extractTimestampFromContainer(container) {
+    if (!container) return null;
 
-    const scrollStep = 800;
-    const scrollDelay = 500;
-    const maxScrolls = 100;
-
-    let scrollCount = 0;
-    let previousScrollTop = -1;
-
-    while (scrollCount < maxScrolls && !this.stopScanning) {
-      scrollCount++;
-
-      chatContainer.scrollTop = Math.max(0, chatContainer.scrollTop - scrollStep);
-
-      await this.sleep(scrollDelay);
-
-      await this.scanCurrentView();
-      this.updateCounts();
-
-      if (chatContainer.scrollTop === previousScrollTop || chatContainer.scrollTop === 0) {
-        break;
+    // Method 1: data-pre-plain-text (full date+time, if it exists)
+    const prePlain = container.querySelector?.('[data-pre-plain-text]');
+    if (prePlain) {
+      const text = prePlain.getAttribute('data-pre-plain-text');
+      const match = text.match(/\[(\d{1,2}:\d{2})(?:[^,]*)?,\s*(\d{1,2}\/\d{1,2}\/\d{2,4})\]/);
+      if (match) {
+        const [_, time, date] = match;
+        const [day, month, year] = date.split('/').map(Number);
+        const [hours, minutes] = time.split(':').map(Number);
+        const fullYear = year < 100 ? 2000 + year : year;
+        return new Date(fullYear, month - 1, day, hours, minutes);
       }
-
-      previousScrollTop = chatContainer.scrollTop;
     }
+
+    // Method 2: Search spans for visible time text (HH:MM)
+    // WhatsApp displays message time in small spans near the message content.
+    // We look for short text that starts with a time pattern.
+    const allSpans = container.querySelectorAll?.('span');
+    if (allSpans) {
+      for (const span of allSpans) {
+        const text = span.textContent?.trim() || '';
+        if (text.length < 20) {
+          const timeMatch = text.match(/^(\d{1,2}):(\d{2})/);
+          if (timeMatch) {
+            const hours = parseInt(timeMatch[1]);
+            const minutes = parseInt(timeMatch[2]);
+            if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+              const now = new Date();
+              return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+            }
+          }
+        }
+      }
+    }
+
+    return null;
   }
 
   async scanCurrentView() {
@@ -1002,161 +826,134 @@ class InstantChatMediaDownloader {
       }
 
       const allImages = chatContainer.querySelectorAll('img');
+
       const images = Array.from(allImages).filter(img => {
         const src = img.src || img.getAttribute('src') || '';
 
         const isWhatsAppImage = src.includes('blob:') ||
                src.includes('mmg.whatsapp.net') ||
-               src.includes('pps.whatsapp.net') ||
                src.includes('whatsapp.net');
 
         if (!isWhatsAppImage) return false;
+
+        // Exclude profile picture CDN (pps = profile picture service)
+        if (src.includes('pps.whatsapp.net')) return false;
 
         const isInHeader = img.closest('header') !== null;
         const isInConversationInfo = img.closest('[data-testid="conversation-info-header"]') !== null;
         const isInSidebar = img.closest('[data-testid="chat-list"]') !== null;
 
-        return !isInHeader && !isInConversationInfo && !isInSidebar;
+        if (isInHeader || isInConversationInfo || isInSidebar) return false;
+
+        // Exclude small images: avatars/profile pics inside messages are ~33-49px
+        const w = img.width || img.naturalWidth || 0;
+        const h = img.height || img.naturalHeight || 0;
+        if (w > 0 && h > 0 && w < 70 && h < 70) return false;
+
+        // Exclude images inside known avatar containers
+        if (img.closest('[data-testid*="avatar"]') ||
+            img.closest('[data-testid="photo-btn"]') ||
+            img.closest('[data-testid="default-user"]')) return false;
+
+        return true;
       });
 
-      const selectedTypes = this.getSelectedFileTypes();
+      for (let index = 0; index < images.length; index++) {
+        const img = images[index];
+        try {
+          const src = img.src || img.getAttribute('src') || img.getAttribute('data-src') || '';
 
-      const imagesCheck = document.getElementById('wmd-images-check');
-      const shouldScanImages = imagesCheck ? imagesCheck.checked : true;
-
-      if (shouldScanImages) {
-        const hasImageTypeFilter = selectedTypes.images.size > 0;
-
-        for (let index = 0; index < images.length; index++) {
-          const img = images[index];
-          try {
-            const src = img.src || img.getAttribute('src') || img.getAttribute('data-src') || '';
-
-            if (!src || src.length === 0) {
-              continue;
-            }
-
-            if (src.includes('avatar') ||
-                src.includes('emoji') ||
-                src.includes('icon') ||
-                src.includes('profile') ||
-                src.includes('status')) {
-              continue;
-            }
-
-            if (hasImageTypeFilter) {
-              const srcLower = src.toLowerCase();
-              let shouldInclude = false;
-
-              if (srcLower.includes('.jpg') || srcLower.includes('.jpeg') || srcLower.includes('jpeg')) {
-                shouldInclude = selectedTypes.images.has('jpg');
-              } else if (srcLower.includes('.png') || srcLower.includes('/png')) {
-                shouldInclude = selectedTypes.images.has('png');
-              } else if (srcLower.includes('blob:') || srcLower.includes('whatsapp.net')) {
-                try {
-                  const response = await fetch(src);
-                  if (!response.ok) {
-                    continue;
-                  }
-
-                  const blob = await response.blob();
-                  const contentType = blob.type || '';
-
-                  if (contentType.includes('jpeg') || contentType.includes('jpg')) {
-                    shouldInclude = selectedTypes.images.has('jpg');
-                  } else if (contentType.includes('png')) {
-                    shouldInclude = selectedTypes.images.has('png');
-                  } else {
-                    continue;
-                  }
-                } catch (fetchError) {
-                  continue;
-                }
-              } else {
-                continue;
-              }
-
-              if (!shouldInclude) {
-                continue;
-              }
-            }
-
-            if (this.mediaItems.documents.has(src)) {
-              this.mediaItems.documents.delete(src);
-            }
-
-            this.mediaItems.images.add(src);
-          } catch (e) {
+          if (!src || src.length === 0) {
+            continue;
           }
+
+          if (src.includes('avatar') ||
+              src.includes('emoji') ||
+              src.includes('icon') ||
+              src.includes('profile') ||
+              src.includes('status')) {
+            continue;
+          }
+
+          if (this.timeRangeHours) {
+            const msgTime = this.getMessageTimestamp(img);
+            if (!msgTime) {
+              continue;
+            }
+            const cutoff = new Date(Date.now() - this.timeRangeHours * 60 * 60 * 1000);
+            if (msgTime < cutoff) continue;
+          }
+
+          if (this.mediaItems.documents.has(src)) {
+            this.mediaItems.documents.delete(src);
+          }
+
+          this.mediaItems.images.add(src);
+        } catch (e) {
         }
       }
 
-      const docsCheck = document.getElementById('wmd-documents-check');
-      const shouldScanDocs = docsCheck ? docsCheck.checked : true;
+      const documentButtons = chatContainer.querySelectorAll('div[role="button"], [data-testid="media-document"], [data-testid*="document"]');
 
-      if (shouldScanDocs) {
-        const hasDocTypeFilter = selectedTypes.documents.size > 0;
+      for (const button of documentButtons) {
+        try {
+          const buttonText = button.textContent || '';
+          const hasDocExtension = buttonText.match(/\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|rar)/i);
+          const hasPages = buttonText.match(/\d+\s*(página|pagina|page|pág)/i);
+          const hasSize = buttonText.match(/\d+(\.\d+)?\s*(KB|MB|GB)/i);
 
-        const documentButtons = chatContainer.querySelectorAll('div[role="button"], [data-testid="media-document"], [data-testid*="document"]');
-
-        for (const button of documentButtons) {
-          try {
-            const buttonText = button.textContent || '';
-            const hasDocExtension = buttonText.match(/\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|rar)/i);
-            const hasPages = buttonText.match(/\d+\s*(página|pagina|page|pág)/i);
-            const hasSize = buttonText.match(/\d+(\.\d+)?\s*(KB|MB|GB)/i);
-
-            if (!hasDocExtension && !hasPages && !hasSize) {
-              continue;
-            }
-
-            let title = 'document';
-            const fileNameMatch = buttonText.match(/([^\n]+\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|rar))/i);
-            if (fileNameMatch) {
-              title = fileNameMatch[1].trim();
-            } else {
-              const titleAttr = button.getAttribute('title') ||
-                              button.querySelector('[title]')?.getAttribute('title') || '';
-              if (titleAttr) {
-                title = titleAttr;
-              }
-            }
-
-            if (hasDocTypeFilter) {
-              const shouldInclude = this.shouldIncludeDocument({ title: title }, selectedTypes.documents);
-              if (!shouldInclude) {
-                continue;
-              }
-            }
-
-            let alreadyExists = false;
-            for (const doc of this.mediaItems.documents) {
-              try {
-                const parsed = JSON.parse(doc);
-                if (parsed.title === title) {
-                  alreadyExists = true;
-                  break;
-                }
-              } catch (e) {}
-            }
-
-            if (alreadyExists) {
-              continue;
-            }
-
-            const buttonId = `doc_btn_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
-            if (!this.documentButtons) {
-              this.documentButtons = new Map();
-            }
-            this.documentButtons.set(buttonId, button);
-
-            this.mediaItems.documents.add(JSON.stringify({
-              id: buttonId,
-              title: title,
-              type: 'element_reference'
-            }));
-          } catch (e) {
+          if (!hasDocExtension && !hasPages && !hasSize) {
+            continue;
           }
+
+          if (this.timeRangeHours) {
+            const msgTime = this.getMessageTimestamp(button);
+            if (!msgTime) {
+              continue;
+            }
+            const cutoff = new Date(Date.now() - this.timeRangeHours * 60 * 60 * 1000);
+            if (msgTime < cutoff) continue;
+          }
+
+          let title = 'document';
+          const fileNameMatch = buttonText.match(/([^\n]+\.(pdf|doc|docx|xls|xlsx|txt|ppt|pptx|zip|rar))/i);
+          if (fileNameMatch) {
+            title = fileNameMatch[1].trim();
+          } else {
+            const titleAttr = button.getAttribute('title') ||
+                            button.querySelector('[title]')?.getAttribute('title') || '';
+            if (titleAttr) {
+              title = titleAttr;
+            }
+          }
+
+          let alreadyExists = false;
+          for (const doc of this.mediaItems.documents) {
+            try {
+              const parsed = JSON.parse(doc);
+              if (parsed.title === title) {
+                alreadyExists = true;
+                break;
+              }
+            } catch (e) {}
+          }
+
+          if (alreadyExists) {
+            continue;
+          }
+
+          const buttonId = `doc_btn_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+          if (!this.documentButtons) {
+            this.documentButtons = new Map();
+          }
+          this.documentButtons.set(buttonId, button);
+
+          this.mediaItems.documents.add(JSON.stringify({
+            id: buttonId,
+            title: title,
+            type: 'element_reference'
+          }));
+        } catch (e) {
         }
       }
 
@@ -1164,59 +961,6 @@ class InstantChatMediaDownloader {
     }
   }
 
-  getSelectedFileTypes() {
-    const types = {
-      images: new Set(),
-      documents: new Set()
-    };
-
-    if (document.getElementById('wmd-images-jpg')?.checked) {
-      types.images.add('jpg');
-    }
-    if (document.getElementById('wmd-images-png')?.checked) {
-      types.images.add('png');
-    }
-
-    if (document.getElementById('wmd-docs-pdf')?.checked) {
-      types.documents.add('pdf');
-    }
-    if (document.getElementById('wmd-docs-doc')?.checked) {
-      types.documents.add('doc');
-      types.documents.add('docx');
-    }
-    if (document.getElementById('wmd-docs-xls')?.checked) {
-      types.documents.add('xls');
-      types.documents.add('xlsx');
-    }
-    if (document.getElementById('wmd-docs-txt')?.checked) {
-      types.documents.add('txt');
-    }
-
-    return types;
-  }
-
-  shouldIncludeDocument(doc, selectedTypes) {
-    if (!selectedTypes || selectedTypes.size === 0) {
-      return true;
-    }
-
-    const title = (doc.title || doc.url || '').toLowerCase();
-
-    if (title.includes('.pdf') || title.includes('pdf')) {
-      return selectedTypes.has('pdf');
-    }
-    if (title.includes('.doc') || title.includes('.docx')) {
-      return selectedTypes.has('doc') || selectedTypes.has('docx');
-    }
-    if (title.includes('.xls') || title.includes('.xlsx')) {
-      return selectedTypes.has('xls') || selectedTypes.has('xlsx');
-    }
-    if (title.includes('.txt')) {
-      return selectedTypes.has('txt');
-    }
-
-    return true;
-  }
 
   updateCounts() {
     const imageCount = document.getElementById('wmd-count-images');
@@ -1236,28 +980,7 @@ class InstantChatMediaDownloader {
 
   setDownloadButtonsDisabled(disabled) {
     const downloadBtn = document.getElementById('wmd-download-btn');
-    const downloadAdvancedBtn = document.getElementById('wmd-download-advanced-btn');
-
     if (downloadBtn) downloadBtn.disabled = disabled;
-    if (downloadAdvancedBtn) downloadAdvancedBtn.disabled = disabled;
-  }
-
-  collapseAdvancedOptions() {
-    const advancedPanel = document.getElementById('wmd-advanced');
-    const magicScanBtn = document.getElementById('wmd-magic-scan-btn');
-    const magicScanSection = magicScanBtn?.closest('.wmd-section');
-    const downloadBtn = document.getElementById('wmd-download-btn');
-    const downloadSection = downloadBtn?.closest('.wmd-section');
-
-    if (advancedPanel) {
-      advancedPanel.style.display = 'none';
-    }
-    if (magicScanSection) {
-      magicScanSection.style.display = 'block';
-    }
-    if (downloadSection) {
-      downloadSection.style.display = 'block';
-    }
   }
 
   async startDownload() {
@@ -1290,34 +1013,22 @@ class InstantChatMediaDownloader {
     this.setDownloadButtonsDisabled(true);
     progress.style.display = 'block';
 
-    const selectedTypes = this.getSelectedFileTypes();
+    this.mediaItems.images.forEach(url => {
+      this.downloadQueue.push({ type: 'image', url });
+    });
 
-    const imagesCheck = document.getElementById('wmd-images-check');
-    const docsCheck = document.getElementById('wmd-documents-check');
-
-    const downloadImages = imagesCheck ? imagesCheck.checked : true;
-    const downloadDocs = docsCheck ? docsCheck.checked : true;
-
-    if (downloadImages) {
-      this.mediaItems.images.forEach(url => {
-        this.downloadQueue.push({ type: 'image', url });
-      });
-    }
-
-    if (downloadDocs) {
-      this.mediaItems.documents.forEach(doc => {
-        try {
-          const parsed = JSON.parse(doc);
-          if (parsed.type === 'element_reference') {
-            this.downloadQueue.push({ type: 'document', id: parsed.id, title: parsed.title });
-          } else {
-            this.downloadQueue.push({ type: 'document', url: doc });
-          }
-        } catch (e) {
+    this.mediaItems.documents.forEach(doc => {
+      try {
+        const parsed = JSON.parse(doc);
+        if (parsed.type === 'element_reference') {
+          this.downloadQueue.push({ type: 'document', id: parsed.id, title: parsed.title });
+        } else {
           this.downloadQueue.push({ type: 'document', url: doc });
         }
-      });
-    }
+      } catch (e) {
+        this.downloadQueue.push({ type: 'document', url: doc });
+      }
+    });
 
     status.textContent = `Downloading ${this.downloadQueue.length} files...`;
     status.className = 'wmd-status wmd-status-info';
@@ -1333,6 +1044,10 @@ class InstantChatMediaDownloader {
         downloaded++;
       } catch (error) {
         errors++;
+        this.sendAnalyticsEvent('download_error', 1, {
+          file_type: item.type || 'unknown',
+          error_message: (error.message || 'unknown').substring(0, 200)
+        });
       }
 
       const progressPercent = ((i + 1) / this.downloadQueue.length) * 100;
@@ -1363,42 +1078,44 @@ class InstantChatMediaDownloader {
       try {
         if (item.id && this.documentButtons) {
           const button = this.documentButtons.get(item.id);
-          if (button) {
-            button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, cancelable: true }));
-            await this.sleep(300);
+          if (!button) {
+            throw new Error('Document button not found in DOM');
+          }
 
-            let downloadButton = button.querySelector('[data-icon="download"]') ||
-                                button.querySelector('[aria-label*="download"]') ||
-                                button.querySelector('[aria-label*="Download"]') ||
-                                button.querySelector('[aria-label*="descargar"]') ||
-                                button.querySelector('[aria-label*="Descargar"]');
+          button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, cancelable: true }));
+          await this.sleep(300);
 
-            if (!downloadButton) {
-              const messageContainer = button.closest('[data-testid="msg-container"]') ||
-                                      button.closest('[data-id]') ||
-                                      button.parentElement;
-              if (messageContainer) {
-                messageContainer.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, cancelable: true }));
-                await this.sleep(300);
+          let downloadButton = button.querySelector('[data-icon="download"]') ||
+                              button.querySelector('[aria-label*="download"]') ||
+                              button.querySelector('[aria-label*="Download"]') ||
+                              button.querySelector('[aria-label*="descargar"]') ||
+                              button.querySelector('[aria-label*="Descargar"]');
 
-                downloadButton = messageContainer.querySelector('[data-icon="download"]') ||
-                               messageContainer.querySelector('[aria-label*="download"]') ||
-                               messageContainer.querySelector('[aria-label*="Download"]') ||
-                               messageContainer.querySelector('[aria-label*="descargar"]') ||
-                               messageContainer.querySelector('[aria-label*="Descargar"]');
-              }
-            }
+          if (!downloadButton) {
+            const messageContainer = button.closest('[data-testid="msg-container"]') ||
+                                    button.closest('[data-id]') ||
+                                    button.parentElement;
+            if (messageContainer) {
+              messageContainer.dispatchEvent(new MouseEvent('mouseover', { bubbles: true, cancelable: true }));
+              await this.sleep(300);
 
-            if (downloadButton) {
-              downloadButton.click();
-              await this.sleep(1000);
-              return;
-            } else {
-              button.click();
-              await this.sleep(1000);
-              return;
+              downloadButton = messageContainer.querySelector('[data-icon="download"]') ||
+                             messageContainer.querySelector('[aria-label*="download"]') ||
+                             messageContainer.querySelector('[aria-label*="Download"]') ||
+                             messageContainer.querySelector('[aria-label*="descargar"]') ||
+                             messageContainer.querySelector('[aria-label*="Descargar"]');
             }
           }
+
+          if (downloadButton) {
+            downloadButton.click();
+          } else {
+            button.click();
+          }
+          const docExt = (item.title || '').match(/\.(\w+)$/);
+          this.sendAnalyticsEvent('file_download', 1, { file_type: docExt ? docExt[1].toLowerCase() : 'unknown' });
+          await this.sleep(1000);
+          return;
         } else if (item.url) {
           const response = await fetch(item.url);
           const blob = await response.blob();
@@ -1419,6 +1136,7 @@ class InstantChatMediaDownloader {
           }
 
           const filename = `whatsapp/${this.downloadSessionFolder}/whatsapp_${item.type}_${timestamp}${extension}`;
+          this.sendAnalyticsEvent('file_download', 1, { file_type: extension.replace('.', '') });
 
           const url = URL.createObjectURL(blob);
 
@@ -1437,7 +1155,7 @@ class InstantChatMediaDownloader {
             document.body.removeChild(a);
           }
 
-          await this.sleep(100);
+          await this.sleep(5000);
           URL.revokeObjectURL(url);
           return;
         }
@@ -1508,7 +1226,7 @@ class InstantChatMediaDownloader {
    * @param {string} eventName - Event name (magic_scan or full_scan)
    * @param {number} totalItems - Number of items found
    */
-  sendAnalyticsEvent(eventName, totalItems) {
+  sendAnalyticsEvent(eventName, totalItems, extraData = {}) {
     if (this.analyticsConsent !== true) {
       return;
     }
@@ -1519,7 +1237,8 @@ class InstantChatMediaDownloader {
           action: 'sendAnalytics',
           event: eventName,
           total_items: totalItems,
-          timestamp: Math.floor(Date.now() / 1000)
+          timestamp: Math.floor(Date.now() / 1000),
+          ...extraData
         });
       }
     } catch (e) {

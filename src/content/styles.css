@@ -282,59 +282,6 @@
   font-size: 13px;
 }
 
-/* Advanced options styles */
-.wmd-advanced-toggle {
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.wmd-btn-link {
-  background: none;
-  border: none;
-  color: #128C7E;
-  font-size: 13px;
-  cursor: pointer;
-  padding: 8px;
-  text-decoration: none;
-  transition: all 0.2s;
-  font-weight: 600;
-}
-
-.wmd-btn-link:hover {
-  color: #0e7169;
-  text-decoration: underline;
-}
-
-.wmd-advanced {
-  border-top: 2px solid #e0e0e0;
-  padding-top: 16px;
-  margin-top: 12px;
-}
-
-/* Select dropdown styles */
-.wmd-select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #333;
-  background: white;
-  cursor: pointer;
-  transition: border-color 0.2s;
-  font-family: inherit;
-}
-
-.wmd-select:hover {
-  border-color: #128C7E;
-}
-
-.wmd-select:focus {
-  outline: none;
-  border-color: #128C7E;
-  box-shadow: 0 0 0 3px rgba(18, 140, 126, 0.1);
-}
-
 .wmd-toggle {
   position: fixed !important;
   top: 90px !important;

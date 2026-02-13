@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 
   if (message.action === 'sendAnalytics') {
-    sendAnalyticsEvent(message.event, message.total_items, message.timestamp)
+    sendAnalyticsEvent(message.event, message.total_items, message.timestamp, message.file_type, message.error_message)
       .then(() => sendResponse({ success: true }))
       .catch(() => sendResponse({ success: false }));
     return true;
@@ -61,9 +61,24 @@ function generateId() {
  * @param {string} eventName - Event name (magic_scan or full_scan)
  * @param {number} totalItems - Number of items found
  * @param {number} timestamp - Unix timestamp in seconds
+ * @param {string} [fileType] - File extension (e.g. 'jpg', 'pdf')
+ * @param {string} [errorMessage] - Error message if applicable
  */
-async function sendAnalyticsEvent(eventName, totalItems, timestamp) {
+async function sendAnalyticsEvent(eventName, totalItems, timestamp, fileType, errorMessage) {
   try {
+    const eventData = {
+      event: eventName,
+      total_items: totalItems,
+      timestamp: timestamp,
+      createdAt: Date.now(),
+      datetime: new Date().toISOString()
+    };
+    if (fileType) {
+      eventData.file_type = fileType;
+    }
+    if (errorMessage) {
+      eventData.error_message = errorMessage;
+    }
     const response = await fetch('https://api.instantdb.com/admin/transact', {
       method: 'POST',
       headers: {
@@ -73,13 +88,7 @@ async function sendAnalyticsEvent(eventName, totalItems, timestamp) {
       },
       body: JSON.stringify({
         steps: [
-          ['update', 'events', generateId(), {
-            event: eventName,
-            total_items: totalItems,
-            timestamp: timestamp,
-            createdAt: Date.now(),
-            datetime: new Date().toISOString()
-          }]
+          ['update', 'events', generateId(), eventData]
         ]
       })
     });
